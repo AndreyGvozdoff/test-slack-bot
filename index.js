@@ -2,16 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const request = require('superagent');
-
-const mailchimpInstance   = 'us17',
-      listUniqueId        = 'e582f6c176',
-      mailchimpApiKey     = '74f66b40a9444914b89b88428abb8e0a-us17';
-
 const querystring = require('querystring');
-const mailchimpClientId = '434170188382';
-
-var mailchimpSecretKey = '873ea1dd5b304c45a5bb1b73ab2a5a83cfbbd85c708fe95a20';
-var dataStore = require('./dataStore.js');
+const dataStore = require('./dataStore');
+const keys = require('./config');
 
 app.use(express.static('views'));
 app.use(bodyParser.json());
@@ -24,9 +17,9 @@ app.get('/', function (req, res) {
 
 app.post('/signup', function (req, res) {
     request
-        .post('https://' + mailchimpInstance + '.api.mailchimp.com/3.0/lists/' + listUniqueId + '/members/')
+        .post('https://' + keys.mailchimpInstance + '.api.mailchimp.com/3.0/lists/' + keys.listUniqueId + '/members/')
         .set('Content-Type', 'application/json;charset=utf-8')
-        .set('Authorization', 'Basic ' + new Buffer('any:' + mailchimpApiKey ).toString('base64'))
+        .set('Authorization', 'Basic ' + new Buffer('any:' + keys.mailchimpApiKey ).toString('base64'))
         .send({
             'email_address': req.body.email,
             'status': 'subscribed',
@@ -48,7 +41,7 @@ app.get('/mailchimp/auth/authorize', function(req, res) {
     res.redirect('https://login.mailchimp.com/oauth2/authorize?' +
         querystring.stringify({
             'response_type': 'code',
-            'client_id': mailchimpClientId,
+            'client_id': keys.mailchimpClientId,
             'redirect_uri': 'http://127.0.0.1:3000/mailchimp/auth/callback'
         }));
 });
@@ -57,8 +50,8 @@ app.get('/mailchimp/auth/callback', function(req, res) {
     request.post('https://login.mailchimp.com/oauth2/token')
         .send(querystring.stringify({
             'grant_type': 'authorization_code',
-            'client_id': mailchimpClientId,
-            'client_secret': mailchimpSecretKey,
+            'client_id': keys.mailchimpClientId,
+            'client_secret': keys.mailchimpSecretKey,
             'redirect_uri': 'http://127.0.0.1:3000/mailchimp/auth/callback',
             'code': req.query.code
         }))
