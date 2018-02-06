@@ -3,14 +3,14 @@ const bodyParser = require('body-parser');
 const app = express();
 const request = require('superagent');
 
-const mailchimpInstance   = 'us6',
-      listUniqueId        = 'b6a82d89f0',
-      mailchimpApiKey     = '637274b5ab272affbf7df7d3723ea2a1-us6';
+const mailchimpInstance   = 'us17',
+      listUniqueId        = 'e582f6c176',
+      mailchimpApiKey     = '74f66b40a9444914b89b88428abb8e0a-us17';
 
 const querystring = require('querystring');
-const mailchimpClientId = 'xxxxxxxxxxxxxxxx';
+const mailchimpClientId = '434170188382';
 
-var mailchimpSecretKey = 'xxxxxxxxxxxxxxxxxxxx';
+var mailchimpSecretKey = '873ea1dd5b304c45a5bb1b73ab2a5a83cfbbd85c708fe95a20';
 var dataStore = require('./dataStore.js');
 
 app.use(express.static('views'));
