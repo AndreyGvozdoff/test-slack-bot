@@ -149,7 +149,7 @@ app.get("/mailchimp/list/members/:id", function(req, res) {
     )
     .set("Accept", "application/json")
     .set("Authorization", "OAuth " + mailchimpConf.access_token)
-    //.send({'merge_fields': {'FNAME': 'new', 'LNAME': 'name'})
+    .send({ merge_fields: { FNAME: "new", LNAME: "name" } })
     .end(function(err, response) {
       if (
         response.status < 300 ||
