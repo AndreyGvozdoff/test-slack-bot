@@ -5,7 +5,17 @@ const app = express();
 const request = require("superagent");
 const querystring = require("querystring");
 const dataStore = require("./dataStore");
+const _ = require("lodash");
+const Promise = require("bluebird");
+Promise.longStackTraces();
+const rp = require("request-promise");
+const crypto = require("crypto");
+
+const bunyan = require("bunyan");
+const logging = bunyan.createLogger({ name: process.env.app });
 const port = process.env.port || 4000;
+
+const Botkit = require("botkit");
 
 app.use(express.static("views"));
 app.use(bodyParser.json());
@@ -162,6 +172,94 @@ app.get("/mailchimp/list/members/:id", function(req, res) {
     });
 });
 
+logging.info("(Node " + process.version + ") started");
+
+var apitoken = process.env.mailchimpApiKey;
+var dc = apitoken.split("-")[1];
+
+var q = function(url) {
+  return {
+    uri: "https://foo:" + apitoken + "@" + dc + ".api.mailchimp.com/3.0/" + url,
+    json: true
+  };
+};
+
+function fetchUserInfo(email, listName) {
+  return rp(q("lists"))
+    .then(function(response) {
+      return _.filter(response.lists, function(list) {
+        return list.name + " Recipients" === listName;
+      });
+    })
+    .then(function(lists) {
+      if (lists.length !== 1) {
+        return;
+      }
+      var list = lists[0];
+      return rp(
+        q(
+          "lists/" +
+            list.id +
+            "/members/" +
+            crypto
+              .createHash("md5")
+              .update(email)
+              .digest("hex")
+        )
+      );
+      logging.info(list.id);
+    })
+    .catch(function(err) {
+      logging.error("Failed fetch user info", { err: err });
+    });
+}
+
+var controller = Botkit.slackbot();
+var bot = controller.spawn({
+  token: process.env.slackToken
+});
+bot.startRTM(function(err) {
+  if (err) {
+    throw new Error("Could not connect to Slack");
+  }
+});
+
+controller.on("bot_message", function(bot, message) {
+  logging.info("message", message);
+  var match = message.text.match(
+    /^<mailto:([^@]+@[^|]+)\|[^@]+@[^>]+> subscribed to <[^|]+\|([^>]+)>$/
+  );
+  if (!match) {
+    return;
+  }
+  fetchUserInfo(match[1], match[2]).then(function(member) {
+    if (!member) {
+      logging.error("Failed to fetch member info for", match);
+      return;
+    }
+    rp
+      .post({
+        uri: "https://slack.com/api/chat.postMessage",
+        qs: {
+          token: process.env.slackToken,
+          channel: message.channel,
+          username: process.env.app,
+          icon_url:
+            "https://slack.global.ssl.fastly.net/12b5a/plugins/mailchimp/assets/service_36.png",
+          text:
+            "The new member is <mailto:" +
+            match[1] +
+            "|" +
+            member.merge_fields.NAME +
+            ">"
+        }
+      })
+      .catch(function(err) {
+        logging.error("Failed to post message", err);
+      });
+  });
+});
+
 app.listen(port, function() {
-  console.log("App listening on" + port);
+  console.log("App listening on " + port);
 });
