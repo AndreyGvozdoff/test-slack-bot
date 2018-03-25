@@ -27,7 +27,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/callback-subscribes", (req, res) => {
-  res.send(req.body);
   console.log(req.body);
 });
 
