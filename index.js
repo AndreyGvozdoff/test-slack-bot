@@ -4,7 +4,7 @@ const app = express();
 
 app.get("/", function(req, res) {
   // res.send("Test");
-  res.send(process.env.mailchimpInstance);
+  res.send(process.env.app);
 });
 
 app.get("/callback-subscribes", (req, res) => res.send());
