@@ -1,9 +1,14 @@
 require("dotenv").config();
 const express = require("express");
+const request = require("superagent");
+const bodyParser = require("body-parser");
 const Mailchimp = require("mailchimp-api-v3");
 const slack = require("slack");
 const PORT = process.env.PORT || 5000;
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const token = process.env.slackToken,
   channel = process.env.slackChannel;
