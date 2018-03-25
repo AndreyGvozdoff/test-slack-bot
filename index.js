@@ -32,9 +32,9 @@ app.get("/", (req, res) => {
 
 app.post("/callback-subscribes", (req, res) => {
   let text = req.body;
-  let channel = C9R1UDMUH;
+  let channel = "C9R1UDMUH";
   slack.chat
-    .postMessage({ token, channel, text })
+    .postMessage({ token: token, channel: channel, text: text })
     .then(console.log)
     .catch(console.log);
   console.log(req.body);
