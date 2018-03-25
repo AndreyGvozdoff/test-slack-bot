@@ -26,8 +26,8 @@ app.get("/", (req, res) => {
     });
 });
 
-app.get("/callback-subscribes", (req, res) => {
-  console.log(req);
+app.post("/callback-subscribes", (req, res) => {
+  console.log(req.body);
 });
 
 app.listen(PORT, () => console.log("App listening on " + PORT));
