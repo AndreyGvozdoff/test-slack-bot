@@ -1,5 +1,15 @@
+//require("dotenv").config();
 const express = require("express");
-const path = require("path");
-const PORT = process.env.PORT || 5000;
+const app = express();
+const _ = require("lodash");
 
-express().listen(PORT, () => console.log(`Listening on ${PORT}`));
+const port = process.env.port || 5000;
+
+app.get("/", function(req, res) {
+  res.send("Test");
+  res.send(process.env.mailchimpInstance);
+});
+
+app.listen(port, function() {
+  console.log("App listening on " + port);
+});
