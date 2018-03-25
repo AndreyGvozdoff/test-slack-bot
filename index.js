@@ -27,14 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/callback-subscribes", (req, res) => {
-  mailchimp
-    .get("/callback-subscribes")
-    .then(function(results) {
-      res.send(results);
-    })
-    .catch(function(err) {
-      res.send(err);
-    });
+  console.log(req);
 });
 
 app.listen(PORT, () => console.log("App listening on " + PORT));
