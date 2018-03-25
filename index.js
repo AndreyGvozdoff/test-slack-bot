@@ -5,6 +5,6 @@ const app = express();
 
 app.get("/", (req, res) => res.send(process.env.app));
 
-app.get("/callback-subscribes", (req, res) => res.send(res));
+app.get("/callback-subscribes", (req, res) => res.send());
 
 app.listen(PORT, () => console.log("App listening on " + PORT));
