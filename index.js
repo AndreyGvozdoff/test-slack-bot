@@ -15,9 +15,20 @@ let apitoken = process.env.mailchimpApiKey,
 
 const mailchimp = new Mailchimp(apitoken);
 
+// app.get("/", (req, res) => {
+//   mailchimp
+//     .get(`/lists/${list_id}/members`)
+//     .then(function(results) {
+//       res.send(results);
+//     })
+//     .catch(function(err) {
+//       res.send(err);
+//     });
+// });
+
 app.get("/", (req, res) => {
   mailchimp
-    .get(`/lists/${list_id}/members`)
+    .get("/callback-subscribes")
     .then(function(results) {
       res.send(results);
     })
@@ -26,6 +37,6 @@ app.get("/", (req, res) => {
     });
 });
 
-app.get("/callback-subscribes", (req, res) => res.send());
+//app.get("/callback-subscribes", (req, res) => res.send());
 
 app.listen(PORT, () => console.log("App listening on " + PORT));
