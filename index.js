@@ -12,7 +12,9 @@ let apitoken = process.env.mailchimpApiKey,
   mailchimpInstance = apitoken.split("-")[1],
   listUniqueId = process.env.listUniqueId;
 
-app.post("/", function(req, res) {
+app.get("/", (req, res) => res.send(process.env.app));
+
+app.post("/signin", function(req, res) {
   request
     .post(
       "https://" +
@@ -45,8 +47,6 @@ app.post("/", function(req, res) {
       }
     });
 });
-
-//app.get("/", (req, res) => res.send(process.env.app));
 
 app.get("/callback-subscribes", (req, res) => res.send());
 
