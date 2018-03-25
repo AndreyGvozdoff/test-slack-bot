@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 const token = process.env.slackToken,
-  channel = process.env.slackChanel;
+  channel = process.env.slackChannel;
 
 const apitoken = process.env.mailchimpApiKey,
   list_id = process.env.listUniqueId;
