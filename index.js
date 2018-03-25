@@ -12,7 +12,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const token = process.env.slackToken;
 //const bot = new Slack({token})
-let slackChannel = "C9R1UDMUH";
 
 let apitoken = process.env.mailchimpApiKey,
   //mailchimp_instance = apitoken.split("-")[1],
@@ -33,6 +32,7 @@ app.get("/", (req, res) => {
 
 app.post("/callback-subscribes", (req, res) => {
   let text = req.body;
+  let slackChannel = "C9R1UDMUH";
   slack.chat.postMessage({ token, slackChannel, text });
   console.log(req.body);
 });
