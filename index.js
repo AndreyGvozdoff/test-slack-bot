@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 let apitoken = process.env.mailchimpApiKey,
-  mailchimp_instance = apitoken.split("-")[1],
+  //mailchimp_instance = apitoken.split("-")[1],
   list_id = process.env.listUniqueId;
 
 const mailchimp = new Mailchimp(apitoken);
