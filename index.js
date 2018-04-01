@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
     .then(function(results) {
       //res.send(results);
       res.send(
-        ejs.renderFile(__dirname + "/views/index.ejs", { lists: results.lists })
+        ejs.renderFile(__dirname + "/views/index.ejs", { lists: results })
       );
 
       // res.render("pages/index", {
