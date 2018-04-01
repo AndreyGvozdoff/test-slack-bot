@@ -28,7 +28,10 @@ app.get("/", (req, res) => {
     //.get(`/lists/${list_id}/members`)
     .get("/lists")
     .then(function(results) {
-      res.send(results);
+      //res.send(results);
+      res.send(
+        ejs.renderFile(__dirname + "/views/index.ejs", { lists: results.lists })
+      );
 
       // res.render("pages/index", {
       //   lists: results.lists
