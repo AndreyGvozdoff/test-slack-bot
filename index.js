@@ -28,10 +28,10 @@ app.get("/", (req, res) => {
     //.get(`/lists/${list_id}/members`)
     .get("/lists")
     .then(function(results) {
-      //res.send(results);
-      res.render("pages/index", {
-        listsId: results
-      });
+      res.send(results);
+      // res.render("pages/index", {
+      //   listsId: results
+      // });
     })
     .catch(function(err) {
       res.send(err);
