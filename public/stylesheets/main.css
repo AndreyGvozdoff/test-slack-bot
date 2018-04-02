@@ -1,1 +1,16 @@
-
+body {
+  background: #fafafa;
+  position: relative;
+}
+ul li {
+  list-style: none;
+}
+.submit-block button {
+  margin: 0 auto;
+  display: block;
+  width: 25%;
+}
+.mdl-data-table {
+  width: 80%;
+  margin: 20px auto;
+}

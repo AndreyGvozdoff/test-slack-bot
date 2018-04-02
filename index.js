@@ -11,8 +11,16 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "/public/")));
 app.set("views", path.join(__dirname, "views"));
+app.use(
+  "/js",
+  express.static(__dirname + "/node_modules/material-design-lite")
+);
+app.use(
+  "/css",
+  express.static(__dirname + "/node_modules/material-design-lite")
+);
 app.set("view engine", "ejs");
 
 const token = process.env.slackToken,
@@ -28,14 +36,13 @@ app.get("/", (req, res) => {
     //.get(`/lists/${list_id}/members`)
     .get("/lists")
     .then(function(results) {
-      //res.send(results);
-      res.send(
-        ejs.renderFile(__dirname + "/views/index.ejs", { lists: results })
-      );
-
-      // res.render("pages/index", {
-      //   lists: results.lists
-      // });
+      //res.send(results.lists);
+      slack.channels.list({ token: token }).then(function(channels) {
+        res.render("index", {
+          lists: results.lists,
+          channels: channels.channels
+        });
+      });
     })
     .catch(function(err) {
       res.send(err);
@@ -47,7 +54,9 @@ app.post("/callback-subscribes", (req, res) => {
   slack.chat
     .postMessage({ token: token, channel: channel, text: text })
     .then(console.log)
-    .catch(console.log);
+    .catch(function(err) {
+      res.send(err);
+    });
   console.log(req.body);
 });
 

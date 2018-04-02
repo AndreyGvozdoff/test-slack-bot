@@ -6,23 +6,66 @@
   <meta name="description" content="Slack Bot for MailChimp">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <title>Slack Bot for MailChimp</title>
-  <link rel="stylesheet" href="/node_modules/material-design-lite/material.min.css">
-  <script src="/node_modules/material-design-lite/material.min.js"></script>
+  <link rel="stylesheet" href="/css/material.min.css">
+  <script src="/js/material.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
 </head>
 <body>
-<header>
-</header>
-<main class="mdl-layout">
-  <div class="mdl-layout__container">
-    <% lists.forEach(function(list) { %>
-    <li><%= list.id %></li>
-    <% }); %>
+<header></header>
+<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+  <div class="mdl-tabs__tab-bar">
+    <a href="#mailchimp-panel" class="mdl-tabs__tab is-active">MailChimp Lists Id's</a>
+    <a href="#slackchannel-panel" class="mdl-tabs__tab">Slack Channel's</a>
   </div>
-</main>
-<footer>
 
-</footer>
+  <div class="mdl-tabs__panel is-active" id="mailchimp-panel">
+    <table class="mdl-data-table mdl-shadow--2dp">
+      <thead>
+      <tr>
+        <th>Select</th>
+        <th>Id</th>
+        <th>Name</th>
+      </tr>
+      </thead>
+      <tbody>
+        <% lists.forEach(function(list) { %>
+        <tr>
+          <td><input type="radio" class="mdl-radio__button" name="options" value=""></td>
+          <td><%= list.id %></td>
+          <td><%= list.name%></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <div class="submit-block">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save</button>
+    </div>
+  </div>
+  <div class="mdl-tabs__panel" id="slackchannel-panel">
+    <table class="mdl-data-table mdl-shadow--2dp">
+      <thead>
+      <tr>
+        <th>Select</th>
+        <th>Id</th>
+        <th>Name</th>
+      </tr>
+      </thead>
+      <tbody>
+        <% channels.forEach(function(channel) { %>
+        <tr>
+          <td><input type="radio" class="mdl-radio__button" name="options" value=""></td>
+          <td><%= channel.id %></td>
+          <td><%= channel.name%></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <div class="submit-block">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save</button>
+    </div>
+  </div>
+</div>
+<footer></footer>
 </body>
 </html>
