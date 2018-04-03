@@ -53,9 +53,11 @@ app.post("/callback-subscribes", (req, res) => {
   let text =
     "Status: " +
     req.body.type +
+    "," +
     " Email: " +
     req.body.data.email +
-    " Name " +
+    "," +
+    " Name: " +
     req.body.data.merges.FNAME +
     " " +
     req.body.data.merges.LNAME;
