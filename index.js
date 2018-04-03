@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
     //.get(`/lists/${list_id}/members`)
     .get("/lists")
     .then(function(results) {
-      //res.send(results.lists);
+      //res.send(results);
       slack.channels.list({ token: token }).then(function(channels) {
         res.render("index", {
           lists: results.lists,
@@ -50,14 +50,21 @@ app.get("/", (req, res) => {
 });
 
 app.post("/callback-subscribes", (req, res) => {
-  let text = req.body;
+  let text =
+    "Status: " +
+    req.body.type +
+    "Email: " +
+    req.body.data[email] +
+    "Name: " +
+    res.body.data[merges][FNAME] +
+    res.body.data[merges][LNAME];
   slack.chat
     .postMessage({ token: token, channel: channel, text: text })
-    .then(console.log)
+    .then()
     .catch(function(err) {
       res.send(err);
     });
-  console.log(req.body);
+  //console.log(req.body);
 });
 
 app.listen(PORT, () => console.log("App listening on " + PORT));
