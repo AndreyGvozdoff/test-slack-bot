@@ -50,21 +50,14 @@ app.get("/", (req, res) => {
 });
 
 app.post("/callback-subscribes", (req, res) => {
-  let text =
-    "Status: " +
-    req.body.type +
-    "Email: " +
-    req.body.data[email] +
-    "Name: " +
-    res.body.data[merges][FNAME] +
-    res.body.data[merges][LNAME];
+  let text = req.body;
   slack.chat
     .postMessage({ token: token, channel: channel, text: text })
     .then()
     .catch(function(err) {
       res.send(err);
     });
-  //console.log(req.body);
+  console.log(req.body);
 });
 
 app.listen(PORT, () => console.log("App listening on " + PORT));
