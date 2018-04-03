@@ -50,7 +50,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/callback-subscribes", (req, res) => {
-  let text = req.body.type + req.body.data.email;
+  let text = "Status: " + req.body.type + "Email: " + req.body.data.email;
   slack.chat
     .postMessage({ token: token, channel: channel, text: text })
     .then()
