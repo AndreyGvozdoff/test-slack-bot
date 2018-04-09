@@ -61,13 +61,13 @@ app.post("/callback-subscribes", (req, res) => {
     req.body.data.merges.FNAME +
     " " +
     req.body.data.merges.LNAME;
-  slack.chat
-    .postMessage({ token: token, channel: channel, text: text })
-    .then()
-    .catch(function(err) {
-      res.send(err);
-    });
+  slack.chat.postMessage({ token: token, channel: channel, text: text });
+  //.then()
+  // .catch(function(err) {
+  //   res.send(err);
+  // });
   console.log(req.body);
+  res.end();
 });
 
 app.listen(PORT, () => console.log("App listening on " + PORT));
